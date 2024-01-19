@@ -5,6 +5,7 @@ from openai import OpenAI
 from math import exp
 import numpy as np
 from utility.env_manager import get_env_manager
+
 env_manager = get_env_manager()
 client = OpenAI(api_key=env_manager['openai_keys']['OPENAI_API_KEY'])
 
