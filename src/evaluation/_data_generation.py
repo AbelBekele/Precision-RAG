@@ -75,7 +75,7 @@ def generate_test_data(prompt: str, context: str, num_test_output: str) -> str:
     """
     # Call the augment_prompt function
     assistant = KnowledgeAssistant()
-    query = file_reader("prompts/data-generation-prompt.txt")
+    query = "I want to know about this week tasks."
     augmented_prompt = assistant.augment_prompt(query)
 
     API_RESPONSE = get_completion(

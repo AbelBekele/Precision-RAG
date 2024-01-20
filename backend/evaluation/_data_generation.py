@@ -73,6 +73,7 @@ def generate_test_data(prompt: str, context: str, num_test_output: str, objectiv
     @parameter context: the context of the user message.
     @returns classification: the classification of the hallucination.
     """
+
     API_RESPONSE = get_completion(
         [
             {
@@ -90,13 +91,12 @@ def generate_test_data(prompt: str, context: str, num_test_output: str, objectiv
 
 
 def main(num_test_output: str, objective):
-    # Call the augment_prompt function
     assistant = KnowledgeAssistant()
     query = '"' + str(objective) + '"'
     print(query)
     augmented_prompt = assistant.augment_prompt(query)
     context_message = augmented_prompt
-    prompt_message = file_reader("prompts/prompt-generation-prompt.txt")
+    prompt_message = file_reader("prompts/data-generation-prompt.txt")
     context = str(context_message)
     prompt = str(prompt_message)
     test_data = generate_test_data(prompt, context, num_test_output, objective)
@@ -108,7 +108,7 @@ def main(num_test_output: str, objective):
         base_dir = os.path.dirname(script_dir)
 
         # Define the relative path to your JSON file
-        path = "prompt-dataset/prompt-data.json"
+        path = "test-dataset/test-data.json"
 
         # Join the base directory with the relative path
         file_path = os.path.join(base_dir, path)

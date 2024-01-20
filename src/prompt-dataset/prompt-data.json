@@ -1,0 +1,14 @@
+[
+    {
+        "Prompt": "What are the badges for this week's performance?"
+    },
+    {
+        "Prompt": "How are the badges awarded and what are the benefits?"
+    },
+    {
+        "Prompt": "What criteria are used to evaluate the quality of code?"
+    },
+    {
+        "Prompt": "Why is prompt engineering important in building RAG systems?"
+    }
+]
