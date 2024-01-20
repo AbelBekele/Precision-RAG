@@ -1,93 +1,74 @@
-import os
-import re
-import pdfplumber
-import openai
-from pinecone import Pinecone, PodSpec
-from langchain.document_loaders import PyPDFLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
 from dotenv import load_dotenv
+import os
+from langchain.text_splitter import CharacterTextSplitter
+from langchain_community.document_loaders import TextLoader
+from langchain_community.vectorstores import Pinecone
+from langchain_openai import OpenAIEmbeddings
+from langchain_community.document_loaders import TextLoader
+from pinecone import PodSpec
+from pinecone import Pinecone as ppincone
+from langchain_openai import OpenAIEmbeddings
+from langchain_openai import ChatOpenAI
+from langchain.schema import SystemMessage, HumanMessage, AIMessage
+from langchain_community.vectorstores import Pinecone
 
-# Load environment variables from .env file
-load_dotenv()
+class KnowledgeAssistant:
 
+    def __init__(self):
+        load_dotenv()
+        os.environ["PINECONE_API_KEY"] = os.getenv("PINECONE_API_KEY")
+        os.environ["PINECONE_ENV"] = os.getenv("PINECONE_ENV")
+        os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 
-# Initialize OpenAI
-openai.api_key = os.getenv('OPENAI_API_KEY')
-MODEL = "text-embedding-ada-002"
-
-
-
-# initialize connection to pinecone
-api_key = os.getenv('PINECONE_API_KEY')
-# configure client
-pc = Pinecone(api_key=api_key)
-
-import time
-
-index_name = '10-academy'
-existing_indexes = [
-    index_info["name"] for index_info in pc.list_indexes()
-]
-
-# check if index already exists (it shouldn't if this is first time)
-if index_name not in existing_indexes:
-    try:
-        # if does not exist, create index
-        pc.create_index(
-            index_name,
-            dimension=1536,  # dimensionality of ada 002
-            metric='dotproduct',
-            spec=PodSpec(
-                environment="gcp-starter"
-            ) 
+        self.pc = ppincone(
+            api_key=os.getenv("PINECONE_API_KEY"),
+            environment=os.getenv("PINECONE_ENV")
         )
-        # wait for index to be initialized
-        while not pc.describe_index(index_name).status['ready']:
-            time.sleep(1)
-    except Exception as e:
-        print(f"Failed to create index: {e}")
-        # Handle the error appropriately here
+        self.embed_model = OpenAIEmbeddings(model="text-embedding-ada-002")
+        self.index = self.pc.Index('canopy--document-uploader')
 
-# connect to index
-index = pc.Index(index_name)
-time.sleep(1)
-# view index stats
-index.describe_index_stats()
+        self.text_field = "text"
+        self.vectorstore = Pinecone(self.index, self.embed_model, self.text_field)
+        self.chat = ChatOpenAI(openai_api_key=os.environ["OPENAI_API_KEY"], model='gpt-3.5-turbo')
 
-# Define a function to preprocess text
-def preprocess_text(text):
-    # Replace consecutive spaces, newlines and tabs
-    text = re.sub(r'\s+', ' ', text)
-    return text
+    def augment_prompt(self, query):
+        results = self.vectorstore.similarity_search(query, k=3)
+        source_knowledge = "\n".join([x.page_content for x in results])
+        augmented_prompt = f"""Using the contexts below, answer the query.
 
-def process_pdf(file_path):
-    # create a loader
-    loader = PyPDFLoader(file_path)
-    # load your data
-    data = loader.load()
-    # Split your data up into smaller documents with Chunks
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
-    documents = text_splitter.split_documents(data)
-    # Convert Document objects into strings
-    texts = [str(doc) for doc in documents]
-    return texts
+        Contexts:
+        {source_knowledge}
 
-# Define a function to create embeddings
-def create_embeddings(texts):
-    embeddings_list = []
-    for text in texts:
-        res = openai.Embedding.create(input=[text], engine=MODEL)
-        embeddings_list.append(res['data'][0]['embedding'])
-    return embeddings_list
+        Query: {query}"""
+        return augmented_prompt
 
-# Define a function to upsert embeddings to Pinecone
-def upsert_embeddings_to_pinecone(index, embeddings, ids):
-    index.upsert(vectors=[(id, embedding) for id, embedding in zip(ids, embeddings)])
+    def run_chat(self, query):
+        messages = [
+            SystemMessage(content="You are a helpful assistant."),
+            HumanMessage(content=f"Hi AI, {query}"),
+            AIMessage(content="I'm great thank you. How can I help you?"),
+        ]
 
-# Process a PDF and create embeddings
-file_path = "10_Academy_challenge_doc.pdf"
-texts = process_pdf(file_path)
-embeddings = create_embeddings(texts)
+        augmented_prompt = self.augment_prompt(query)
 
-# Upsert the embeddings to Pinecone
-upsert_embeddings_to_pinecone(index, embeddings, [file_path])
+        prompt = HumanMessage(content=augmented_prompt)
+        messages.append(prompt)
+
+        res = self.chat(messages)
+        return res.content
+
+# if __name__ == "__main__":
+#     assistant = KnowledgeAssistant()
+#     query = "Who are the tutors in this week's challenge?"
+#     response = assistant.run_chat(query)
+#     print(response)
+
+if __name__ == "__main__":
+    assistant = KnowledgeAssistant()
+    query = "Who are the tutors in this week's challenge?"
+
+    # Get the augmented prompt and source_knowledge
+    augmented_prompt, source_knowledge = assistant.augment_prompt(query)
+
+    # Print or use source_knowledge as needed
+    print(source_knowledge)

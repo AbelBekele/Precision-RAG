@@ -1,17 +1,21 @@
 import os
 import json
 import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from utility.env_manager import get_env_manager
 from openai import OpenAI
 from math import exp
 import numpy as np
 from utility.env_manager import get_env_manager
+from typing import List, Dict
+
 env_manager = get_env_manager()
 client = OpenAI(api_key=env_manager['openai_keys']['OPENAI_API_KEY'])
 
 
 
 def get_completion(
-    messages: list[dict[str, str]],
+    messages: List[Dict[str, str]],
     model: str = env_manager['vectordb_keys']['VECTORDB_MODEL'],
     max_tokens=500,
     temperature=0,
@@ -50,11 +54,14 @@ def get_completion(
     return completion
 
 
-def file_reader(path: str, ) -> str:
-    fname = os.path.join(path)
-    with open(fname, 'r') as f:
+def file_reader(path: str) -> str:
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+    base_dir = os.path.dirname(script_dir)
+    file_path = os.path.join(base_dir, path)
+    with open(file_path, 'r', encoding='utf-8') as f:
         system_message = f.read()
     return system_message
+            
             
 
 def generate_test_data(prompt: str, context: str, num_test_output: str) -> str:
