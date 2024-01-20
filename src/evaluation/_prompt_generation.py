@@ -73,17 +73,11 @@ def generate_test_data(prompt: str, context: str, num_test_output: str, objectiv
     @parameter context: the context of the user message.
     @returns classification: the classification of the hallucination.
     """
-    # Call the augment_prompt function
-    assistant = KnowledgeAssistant()
-    query = objective
-    print(query)
-    augmented_prompt = assistant.augment_prompt(query)
-
     API_RESPONSE = get_completion(
         [
             {
                 "role": "user", 
-                "content": prompt.replace("{context}", augmented_prompt).replace("{num_test_output}", num_test_output)
+                "content": prompt.replace("{context}", context).replace("{num_test_output}", num_test_output)
             }
         ],
         model=env_manager['vectordb_keys']['VECTORDB_MODEL'],
@@ -96,7 +90,12 @@ def generate_test_data(prompt: str, context: str, num_test_output: str, objectiv
 
 
 def main(num_test_output: str, objective):
-    context_message = file_reader("prompts/context.txt")
+    # Call the augment_prompt function
+    assistant = KnowledgeAssistant()
+    query = '"' + str(objective) + '"'
+    print(query)
+    augmented_prompt = assistant.augment_prompt(query)
+    context_message = augmented_prompt
     prompt_message = file_reader("prompts/prompt-generation-prompt.txt")
     context = str(context_message)
     prompt = str(prompt_message)
@@ -109,7 +108,7 @@ def main(num_test_output: str, objective):
         base_dir = os.path.dirname(script_dir)
 
         # Define the relative path to your JSON file
-        path = "test-dataset/test-data.json"
+        path = "prompt-dataset/prompt-data.json"
 
         # Join the base directory with the relative path
         file_path = os.path.join(base_dir, path)
@@ -128,4 +127,4 @@ def main(num_test_output: str, objective):
 
 
 if __name__ == "__main__":
-    main("8",'"I want to know about the tutors in this weeks challenge."') # n number of test data to generate
+    main("8","I want to know about this weeks challenge") # n number of test data to generate

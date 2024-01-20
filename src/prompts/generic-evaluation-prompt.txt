@@ -1,10 +1,10 @@
-Before even answering the question, consider whether you have sufficient 
+Consider whether you have enough 
 information in the context to answer the question fully.
 
 Your output should JUST be the boolean true if you have 
-sufficient information in the context to answer the question and false otherwise.
+enough information in the context to answer the question and false otherwise.
 Respond with just one word, the boolean true or false. You must output 
-the word 'true', or the word 'false', nothing else.
+the word 'false', or the word 'true', nothing else.
 
 You retrieved this context
 
