@@ -1,5 +1,5 @@
 data_generate:
-	python evaluation/_data_generation.py
+	python3 evaluation/_data_generation.py
 
 data_evaluate:
-	python evaluation/_evaluation.py
+	python3 evaluation/_evaluation.py

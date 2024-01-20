@@ -66,7 +66,7 @@ def file_reader(path: str) -> str:
             
             
 
-def generate_test_data(prompt: str, context: str, num_test_output: str) -> str:
+def generate_test_data(prompt: str, context: str, num_test_output: str, objective) -> str:
     """Return the classification of the hallucination.
     @parameter prompt: the prompt to be completed.
     @parameter user_message: the user message to be classified.
@@ -75,7 +75,8 @@ def generate_test_data(prompt: str, context: str, num_test_output: str) -> str:
     """
     # Call the augment_prompt function
     assistant = KnowledgeAssistant()
-    query = file_reader("prompts/data-generation-prompt.txt")
+    query = objective
+    print(query)
     augmented_prompt = assistant.augment_prompt(query)
 
     API_RESPONSE = get_completion(
@@ -94,12 +95,12 @@ def generate_test_data(prompt: str, context: str, num_test_output: str) -> str:
     return system_msg
 
 
-def main(num_test_output: str):
+def main(num_test_output: str, objective):
     context_message = file_reader("prompts/context.txt")
-    prompt_message = file_reader("prompts/data-generation-prompt.txt")
+    prompt_message = file_reader("prompts/prompt-generation-prompt.txt")
     context = str(context_message)
     prompt = str(prompt_message)
-    test_data = generate_test_data(prompt, context, num_test_output)
+    test_data = generate_test_data(prompt, context, num_test_output, objective)
     def save_json(test_data) -> None:
        # Get the directory of the current script
         script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -127,4 +128,4 @@ def main(num_test_output: str):
 
 
 if __name__ == "__main__":
-    main("8") # n number of test data to generate
+    main("8",'"I want to know about the tutors in this weeks challenge."') # n number of test data to generate

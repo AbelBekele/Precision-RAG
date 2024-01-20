@@ -67,8 +67,8 @@ if __name__ == "__main__":
     assistant = KnowledgeAssistant()
     query = "Who are the tutors in this week's challenge?"
 
-    # Get the augmented prompt and source_knowledge
-    augmented_prompt, source_knowledge = assistant.augment_prompt(query)
+    # Get the augmented prompt
+    augmented_prompt = assistant.augment_prompt(query)
 
-    # Print or use source_knowledge as needed
-    print(source_knowledge)
+    # Print or use augmented_prompt as needed
+    print(augmented_prompt)

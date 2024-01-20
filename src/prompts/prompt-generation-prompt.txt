@@ -1,0 +1,30 @@
+Your task is to formulate exactly {num_test_output} Prompts from given context.
+
+End each Prompt with a '?' character using only 
+the context provided.
+The output MUST BE in a json format. 
+
+example:
+[
+{
+    "Prompt": "What is the name of the company?",
+},
+{
+    "Prompt": "What is the name of the CEO?",
+}
+]
+
+Each Prompt must start with "Prompt:".
+
+
+The Prompt must satisfy the rules given below:
+1.The Prompt should make sense to humans even when read without the provided context.
+2.The Prompt should be thoroughly answered using the given context.
+3.The Prompt should be framed around a piece of context that offers relevant information. It could also come from tables, code, etc.
+4.The Prompt should be reasonable in difficulty.
+5.The prompt must be logical, comprehended, and responded to by humans.
+6.Do not use terms like 'given context', etc. in the prompt.
+7.Avoid framing Prompts with the word "and," which can be fragmented into many Prompts.
+8.The prompt should be no more than ten words long, and abbreviations should be used whenever possible.
+    
+context: {context}

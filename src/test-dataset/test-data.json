@@ -1,22 +1,26 @@
 [
     {
-        "user": "Who founded OpenAI?",
-        "assistant": "Sam Altman, Elon Musk, Ilya Sutskever and Greg Brockman"
+        "Prompt": "Who are the tutors for this week's challenge?"
     },
     {
-        "user": "What was the initial goal of OpenAI?",
-        "assistant": "To advance digital intelligence in a way that benefits humanity"
+        "Prompt": "What are the names of the tutors for this week's challenge?"
     },
     {
-        "user": "What did OpenAI release in 2016?",
-        "assistant": "OpenAI Gym, a toolkit for developing and comparing reinforcement learning algorithms"
+        "Prompt": "Can you provide information about the tutors in this week's challenge?"
     },
     {
-        "user": "What project did OpenAI showcase in 2018?",
-        "assistant": "OpenAI Five, which trained five AI agents to play Dota 2"
+        "Prompt": "Which individuals are serving as tutors in this week's challenge?"
     },
     {
-        "user": "How did the AI agents in OpenAI Five work together?",
-        "assistant": "They learned to work as a cohesive team to coordinate strategies within the game"
+        "Prompt": "Who is responsible for tutoring in this week's challenge?"
+    },
+    {
+        "Prompt": "Tell me about the tutors involved in this week's challenge."
+    },
+    {
+        "Prompt": "Who are the team members acting as tutors for this week's challenge?"
+    },
+    {
+        "Prompt": "Could you give me details about the tutors in this week's challenge?"
     }
 ]
