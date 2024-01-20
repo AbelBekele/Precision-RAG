@@ -32,7 +32,7 @@ const CreatePost = () => {
             try {
                 setGeneratingprompt(true);
                 const response = await fetch(
-                    "https://dalle-hn3a.onrender.com/api/v1/dalle",
+                    "https://192.168.137.236/api/generate",
                     {
                         method: "POST",
                         headers: {
@@ -64,7 +64,7 @@ const CreatePost = () => {
             setLoading(true);
             try {
                 const response = await fetch(
-                    "https://dalle-hn3a.onrender.com/api/v1/post",
+                    "https://192.168.137.236/api/generate",
                     {
                         method: "POST",
                         headers: {
