@@ -1,0 +1,145 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: "Inter", sans-serif;
+}
+
+@media screen and (min-width: 480px) {
+  .card:nth-child(7n + 1) {
+    grid-column: auto/span 2;
+    grid-row: auto/span 2;
+  }
+}
+
+.prompt::-webkit-scrollbar {
+  width: 5px;
+}
+
+.prompt::-webkit-scrollbar-thumb {
+  background-color: #666e75;
+  border-radius: 5px;
+}
+
+input {
+  color: #666e75;
+}
+
+body {
+  background-color: theme("colors.hero") ;
+  color: theme("colors.grey");
+  scroll-behavior: smooth;
+  font-size: 14px;
+}
+
+.paginate,
+.next,
+.prev {
+  border-radius: 50%;
+  background-color: theme("colors.grey");
+  padding: 0.2rem 0.6rem;
+  font-size: 0.8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: theme("colors.dark");
+  font-weight: bold;
+  margin: 0 0.1rem;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.next:hover,
+.prev:hover,
+.paginate:hover {
+  color: theme("colors.brand");
+}
+
+header {
+  z-index: 100;
+}
+.paginate.active {
+  background-color: theme("colors.accent");
+}
+.next,
+.prev {
+  border-radius: 10px;
+  background-color: theme("colors.grey");
+}
+
+.next:disabled,
+.prev:disabled {
+  background-color: theme("colors.darkgrey");
+  color: theme("colors.grey");
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 100%;
+  align-items: center;
+  grid-gap: 10%;
+  justify-content: center;
+}
+
+.hero__img {
+  width: 90%;
+  height: 80%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px 0 0 300px;
+  display: none;
+}
+
+.hero__img img {
+  transition: all 0.6s ease;
+  cursor: pointer;
+}
+
+.hero__img img:hover {
+  transform: scale(1.2);
+}
+
+::placeholder {
+  color: #545454 !important;
+  font-size: 0.75rem;
+}
+.form {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 2rem;
+}
+
+.form_photo {
+  width: 100%;
+  height: 100%;
+  margin-top: auto;
+}
+@media screen and (min-width: 768px) {
+  .form {
+    grid-template-columns: 1fr 1fr;
+  }
+  .form_photo {
+    width: 80%;
+    height: 80%;
+  }
+  .hero {
+    grid-template-columns: 40% 50%;
+  }
+  .hero__img {
+    display: block;
+  }
+  h1 {
+    font-size: 2.5rem;
+  }
+  body{
+    font-size: 16px;
+  }
+}

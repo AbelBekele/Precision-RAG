@@ -1,26 +1,14 @@
 [
     {
-        "Prompt": "What is the focus of this week's challenge?"
+        "Prompt": "Who are the tutors for this week?"
     },
     {
-        "Prompt": "What are the performance indicators for this week's challenge?"
+        "Prompt": "Which individuals are serving as tutors this week?"
     },
     {
-        "Prompt": "What are the key deliverables for this week's challenge?"
+        "Prompt": "Can you provide the names of this week's tutors?"
     },
     {
-        "Prompt": "What is the deadline for the interim submission?"
-    },
-    {
-        "Prompt": "What are the knowledge acquisition goals for this week?"
-    },
-    {
-        "Prompt": "Who are the team tutors for this week's challenge?"
-    },
-    {
-        "Prompt": "What are the badges awarded for in this challenge?"
-    },
-    {
-        "Prompt": "What are the references related to prompt engineering?"
+        "Prompt": "Who is responsible for tutoring this week?"
     }
 ]

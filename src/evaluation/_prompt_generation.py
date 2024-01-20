@@ -100,6 +100,7 @@ def main(num_test_output: str, objective):
     context = str(context_message)
     prompt = str(prompt_message)
     test_data = generate_test_data(prompt, context, num_test_output, objective)
+    print(test_data)
     def save_json(test_data) -> None:
        # Get the directory of the current script
         script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -127,4 +128,4 @@ def main(num_test_output: str, objective):
 
 
 if __name__ == "__main__":
-    main("8","I want to know about this weeks challenge") # n number of test data to generate
+    main("4","I want to know who are this week's tutors?") # n number of test data to generate

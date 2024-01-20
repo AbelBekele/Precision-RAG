@@ -11,6 +11,7 @@ from langchain_openai import OpenAIEmbeddings
 from langchain_openai import ChatOpenAI
 from langchain.schema import SystemMessage, HumanMessage, AIMessage
 from langchain_community.vectorstores import Pinecone
+import json
 
 class KnowledgeAssistant:
 
@@ -32,14 +33,15 @@ class KnowledgeAssistant:
         self.chat = ChatOpenAI(openai_api_key=os.environ["OPENAI_API_KEY"], model='gpt-3.5-turbo')
 
     def augment_prompt(self, query):
-        results = self.vectorstore.similarity_search(query, k=3)
+        query1 = json.dumps(str(query))
+        results = self.vectorstore.similarity_search(query1, k=3)
         source_knowledge = "\n".join([x.page_content for x in results])
         augmented_prompt = f"""Using the contexts below, answer the query.
 
         Contexts:
         {source_knowledge}
 
-        Query: {query}"""
+        Query: {query1}"""
         return augmented_prompt
 
     def run_chat(self, query):
