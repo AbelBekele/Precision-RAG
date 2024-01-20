@@ -66,18 +66,23 @@ def file_reader(path: str) -> str:
             
             
 
-def generate_test_data(prompt: str, context: str, num_test_output: str, objective) -> str:
+def generate_test_data(prompt: str, context: str, num_test_output: str) -> str:
     """Return the classification of the hallucination.
     @parameter prompt: the prompt to be completed.
     @parameter user_message: the user message to be classified.
     @parameter context: the context of the user message.
     @returns classification: the classification of the hallucination.
     """
+    # Call the augment_prompt function
+    assistant = KnowledgeAssistant()
+    query = "I want to know about this week tasks."
+    augmented_prompt = assistant.augment_prompt(query)
+
     API_RESPONSE = get_completion(
         [
             {
                 "role": "user", 
-                "content": prompt.replace("{context}", context).replace("{num_test_output}", num_test_output)
+                "content": prompt.replace("{context}", augmented_prompt).replace("{num_test_output}", num_test_output)
             }
         ],
         model=env_manager['vectordb_keys']['VECTORDB_MODEL'],
@@ -89,17 +94,12 @@ def generate_test_data(prompt: str, context: str, num_test_output: str, objectiv
     return system_msg
 
 
-def main(num_test_output: str, objective):
-    # Call the augment_prompt function
-    assistant = KnowledgeAssistant()
-    query = '"' + str(objective) + '"'
-    print(query)
-    augmented_prompt = assistant.augment_prompt(query)
-    context_message = augmented_prompt
-    prompt_message = file_reader("prompts/prompt-generation-prompt.txt")
+def main(num_test_output: str):
+    context_message = file_reader("prompts/context.txt")
+    prompt_message = file_reader("prompts/data-generation-prompt.txt")
     context = str(context_message)
     prompt = str(prompt_message)
-    test_data = generate_test_data(prompt, context, num_test_output, objective)
+    test_data = generate_test_data(prompt, context, num_test_output)
     def save_json(test_data) -> None:
        # Get the directory of the current script
         script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -108,7 +108,7 @@ def main(num_test_output: str, objective):
         base_dir = os.path.dirname(script_dir)
 
         # Define the relative path to your JSON file
-        path = "prompt-dataset/prompt-data.json"
+        path = "test-dataset/test-data.json"
 
         # Join the base directory with the relative path
         file_path = os.path.join(base_dir, path)
@@ -127,4 +127,4 @@ def main(num_test_output: str, objective):
 
 
 if __name__ == "__main__":
-    main("8","I want to know about this weeks challenge") # n number of test data to generate
+    main("8") # n number of test data to generate
