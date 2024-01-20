@@ -1,14 +1,14 @@
 [
     {
-        "Prompt": "What are the badges for this week's performance?"
+        "Prompt": "Who are the tutors for this week?"
     },
     {
-        "Prompt": "How are the badges awarded and what are the benefits?"
+        "Prompt": "What are the badges awarded to the best performer each week?"
     },
     {
-        "Prompt": "What criteria are used to evaluate the quality of code?"
+        "Prompt": "What are the performance indicators for Tuesday?"
     },
     {
-        "Prompt": "Why is prompt engineering important in building RAG systems?"
+        "Prompt": "What are the core tasks for this week's challenge in Automatic Prompt Engineering?"
     }
 ]

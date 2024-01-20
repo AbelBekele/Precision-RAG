@@ -21,7 +21,7 @@ class Evaluator:
         self.client = client
         self.assistant = KnowledgeAssistant()
 
-    def evaluate(self, prompt: str, user_message: str, context: str, use_test_data: bool = True) -> str:
+    def evaluate(self, prompt: str, user_message: str, context: str, use_test_data: bool = False) -> str:
         API_RESPONSE = get_completion(
             [
                 {
@@ -35,17 +35,19 @@ class Evaluator:
         )
 
         system_msg = str(API_RESPONSE.choices[0].message.content)
-
+        
         for i, logprob in enumerate(API_RESPONSE.choices[0].logprobs.content[0].top_logprobs, start=1):
             output = f'\nhas_sufficient_context_for_answer: {system_msg}, \nlogprobs: {logprob.logprob}, \naccuracy: {np.round(np.exp(logprob.logprob)*100,2)}%\n'
             print(output)
-            if system_msg == 'true' and np.round(np.exp(logprob.logprob)*100,2) >= 65.00:
-                classification = 'true'
-            elif system_msg == 'false' and np.round(np.exp(logprob.logprob)*100,2) >= 65.00:
+            if system_msg == 'false' and np.round(np.exp(logprob.logprob)*100,2) >= 55.00:
                 classification = 'false'
+            elif system_msg == 'true' and np.round(np.exp(logprob.logprob)*100,2) >= 55.00:
+                classification = 'true'
             else:
                 classification = 'false'
-        return classification
+        accuracy = np.round(np.exp(logprob.logprob)*100,2)
+        sufficent = system_msg
+        return classification, accuracy, sufficent
 
     def run(self, query, user_message):
         augmented_prompt = self.assistant.augment_prompt(query)

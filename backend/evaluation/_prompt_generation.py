@@ -119,7 +119,7 @@ class PromptGenerator:
         prompt = str(prompt_message)
         test_data = self.generate_test_data(prompt, context)
         self.save_json(test_data)
-        
+
         print("===========")
         print("Prompt Data")
         print("===========")
