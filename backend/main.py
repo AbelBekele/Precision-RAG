@@ -47,7 +47,8 @@ def generate(item: Item):
     env_manager = get_env_manager()
     client = OpenAI(api_key=env_manager['openai_keys']['OPENAI_API_KEY'])
     generator = PromptGenerator(item.num_test_output, item.objective, item.output)
-    with open('prompt-dataset/prompt-data.json', 'r') as f:
+    generator.execute()
+    with open('prompts-dataset/prompt-data.json', 'r') as f:
         prompts = json.load(f)
 
     top_score = -1

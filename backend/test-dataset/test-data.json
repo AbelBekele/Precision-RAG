@@ -1,34 +1,6 @@
 [
     {
-        "user": "What is the topic of this week's challenge?",
-        "assistant": "Performance Indicators"
-    },
-    {
-        "user": "What are the key components of RAG?",
-        "assistant": "Rehmet, Emitnan"
-    },
-    {
-        "user": "What are the key performance indicators for understanding prompt matching?",
-        "assistant": "Understanding Prompt ranking, Understanding prompt matching, Ability to reuse previous knowledge"
-    },
-    {
-        "user": "What is the purpose of RAG Evaluation Data Generation?",
-        "assistant": "Understanding of prompt matching and ranking"
-    },
-    {
-        "user": "What is the focus of RAG evaluation metrics?",
-        "assistant": "RAG development and production deployment"
-    },
-    {
-        "user": "What are the deliverables for the interim submission?",
-        "assistant": "Link to code in GitHub, Review report of reading and understanding of Task 1 and progress in other tasks"
-    },
-    {
-        "user": "What are the areas of knowledge acquisition in this project?",
-        "assistant": "Language Models, Automated Evaluation Data Generation, ELO Rating System, Prompt Optimization Strategies, Industry Best Practices"
-    },
-    {
-        "user": "Who are the team tutors for this project?",
-        "assistant": "Yabebal, Emitinan, Rehmet"
+        "user": "When is the interim submission deadline?",
+        "assistant": "Wednesday 8pm UTC"
     }
 ]

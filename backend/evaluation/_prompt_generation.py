@@ -99,7 +99,7 @@ class PromptGenerator:
         base_dir = os.path.dirname(script_dir)
 
         # Define the relative path to your JSON file
-        path = "prompt-dataset/prompt-data.json"
+        path = "prompts-dataset/prompt-data.json"
 
         # Join the base directory with the relative path
         file_path = os.path.join(base_dir, path)
@@ -118,14 +118,16 @@ class PromptGenerator:
         context = str(context_message)
         prompt = str(prompt_message)
         test_data = self.generate_test_data(prompt, context)
+        
+        # Save the JSON data
         self.save_json(test_data)
-
+        
         print("===========")
         print("Prompt Data")
         print("===========")
         print(test_data)
-
+        return test_data
 
 if __name__ == "__main__":
-    generator = PromptGenerator("4", "I want to know what are bages of this week", "WHAT ARE THE COMPANY NAMES?")
+    generator = PromptGenerator("4", "I want to know when the interim submission deadline is", "WHAT ARE THE COMPANY NAMES?")
     generator.execute()

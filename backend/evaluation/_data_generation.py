@@ -127,4 +127,4 @@ def main(num_test_output: str, objective):
 
 
 if __name__ == "__main__":
-    main("8","I want to know about this weeks challenge") # n number of test data to generate
+    main("4","I want to know when the interim submission deadline is") # n number of test data to generate
