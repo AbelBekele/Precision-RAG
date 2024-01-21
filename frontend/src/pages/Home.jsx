@@ -104,7 +104,7 @@ const Home = () => {
                         to="/create"
                         className="font-inter  font-bold bg-accent text-black px-2 py-1 rounded-md"
                     >
-                        Create
+                        Create Prompt
                     </Link>
                 </div>
                 <div className="hero__img">

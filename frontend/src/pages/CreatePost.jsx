@@ -17,7 +17,8 @@ const CreatePost = () => {
     const [generatingprompt, setGeneratingprompt] = useState(false);
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState(""); // Add this line
-    
+    const [accuracy, setAccuracy] = useState(null); // Add this line
+
 
     const handleChange = (e) =>
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -31,21 +32,21 @@ const CreatePost = () => {
         if (form.scenario) {
             try {
                 setGeneratingprompt(true);
-                const response = await fetch(
-                    "https://192.168.137.236/api/generate",
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            prompt: form.scenario,
-                        }),
-                    }
-                );
+                const response = await fetch("http://192.168.137.236:8000/generate", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        num_test_output: "8",
+                        objective: form.objective,
+                        output: form.output,
+                    }),
+                });
+    
                 const data = await response.json();
-                setForm({ ...form, preview: `data:image/jpeg;base64,${data.photo}` });
-                setResult(data.result); // Set the result in the state
+                setResult(data.prompt);
+                setAccuracy(data.score);
             } catch (err) {
                 console.log(err);
             } finally {
@@ -55,6 +56,8 @@ const CreatePost = () => {
             alert("Please provide a proper prompt");
         }
     };
+    
+    
 
 
     const handleSubmit = async (e) => {
@@ -64,7 +67,7 @@ const CreatePost = () => {
             setLoading(true);
             try {
                 const response = await fetch(
-                    "https://192.168.137.236/api/generate",
+                    "http://192.168.137.236:8000/generate",
                     {
                         method: "POST",
                         headers: {
@@ -147,18 +150,17 @@ const CreatePost = () => {
                             </button>
                         </div>
                     </div>
-                    <div className="relative form_photo md:m-auto border bg-darkgrey border-darkgrey text-whtie text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-64 p-3 h-64 flex justify-center items-center">
-                    {form.preview ? (
-                        <img
-                            src={form.preview}
-                            alt="Generated Image"
-                            className="w-full h-full object-cover"
-                        />
-                    ) : (
-                        <span className="text-white">
-                            {result ? result : (form.results || "Generated text will be shown here")}
-                        </span>
-                    )}
+                    <div className="relative form_photo md:m-auto border bg-darkgrey border-darkgrey text-whtie text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-64 p-3 h-64 flex flex-col items-center justify-center">
+                        {form.preview ? (
+                            <span className="text-white mb-2">
+                                {result ? result : (form.results || "Generated prompt will be shown here")}
+                            </span>
+                        ) : (
+                            <div className="text-white text-center">
+                                <p className="mb-2">{result ? result : (form.results || "Generated prompt will be shown here")}</p>
+                                {accuracy && <p className="text-white mt-2">Score: {accuracy}</p>}
+                            </div>
+                        )}
                     </div>
                 </form>
             </div>
